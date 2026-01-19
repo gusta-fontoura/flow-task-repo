@@ -1,0 +1,26 @@
+## --- Build e Dependências (Não subir nunca) ---
+[Bb]in/
+[Oo]bj/
+packages/
+
+## --- Arquivos do Visual Studio e VS Code (Configurações locais) ---
+.vs/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## --- Arquivos de Ambiente e Segredos (Segurança crítica) ---
+# Ignora configurações de desenvolvimento que podem ter senhas locais
+appsettings.Development.json
+appsettings.local.json
+.env
+
+## --- Arquivos Temporários do Sistema Operativo ---
+.DS_Store
+Thumbs.db
+
+## --- Logs e Testes ---
+*.log
+TestResults/
