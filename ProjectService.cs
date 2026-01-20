@@ -40,11 +40,6 @@ namespace FlowTask.API.Services
             return _repository.GetAll();
         }
 
-        public Project? GetById(int id)
-        {
-            return _repository.GetById(id);
-        }
-
         public void DeleteProject(int id)
         {
 
@@ -59,3 +54,4 @@ namespace FlowTask.API.Services
         }
     }
 }
+

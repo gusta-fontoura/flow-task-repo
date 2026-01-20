@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FlowTask.Domain.Entities;
 using FlowTask.Domain.Repositories;
 using FlowTask.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace FlowTask.Infrastructure.Repositories
@@ -21,12 +22,16 @@ namespace FlowTask.Infrastructure.Repositories
 
         public List<Project> GetAll()
         {
-            return _context.Projects.ToList();
+            return _context.Projects
+                .Include(p => p.Tasks)
+                .ToList();
         }
 
         public Project? GetById(int id)
         {
-            return _context.Projects.Find(id);
+            return _context.Projects
+                .Include (p => p.Tasks)
+                .FirstOrDefault(p => p.Id == id);
         }
         public void Add(Project project)
         {

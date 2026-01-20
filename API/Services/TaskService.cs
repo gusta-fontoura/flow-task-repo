@@ -1,5 +1,6 @@
 ﻿using FlowTask.API.Models;
 using FlowTask.API.Services;
+using FlowTask.Domain.Entities;
 using FlowTask.Domain.Repositories;
 using TaskEntity = FlowTask.Domain.Entities.Task;
 
@@ -21,6 +22,11 @@ namespace FLowTask.API.Services
             return _repository.GetAll();
         }
 
+        public TaskEntity? GetById(int id)
+        {
+            return _repository.GetById(id);
+        }
+
         public TaskEntity Create(CreateTaskInput input) 
         {
             if (string.IsNullOrEmpty(input.Title))
@@ -35,7 +41,7 @@ namespace FLowTask.API.Services
             return task;
         }
 
-        public void Update(int id)
+        public void Update(int id, string title, string description, TaskEntityStatus status, ETaskPriority priority)
         {
             var task = _repository.GetById(id);
             if (task == null)
@@ -43,7 +49,21 @@ namespace FLowTask.API.Services
                 throw new Exception("Tarefa não encontrada.");
             }
 
-            task.IsCompleted = true;
+            task.Update(title, description, status, priority);
+
+            _repository.Update(task);
+        }
+
+        public void UpdateStatus(int id, TaskEntityStatus status)
+        {
+            var task = _repository.GetById(id);
+            if (task == null)
+            {
+                throw new Exception("Tarefa não encontrada.");
+            }
+
+            task.UpdateStatus(status);
+
             _repository.Update(task);
         }
         public void Delete(int id)

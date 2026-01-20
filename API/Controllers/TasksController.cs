@@ -41,18 +41,44 @@ namespace FlowTask.API.Controllers
             return Ok(tasks);
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetByID(int id)
+        {
+            var tasks = _service.GetById(id);
+
+            if (tasks == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(tasks);
+        }
+
         [HttpPut("{id}")]
-        public IActionResult Put(int id)
+        public IActionResult Put(int id, UpdateTaskInput input)
         {
             try
             {
-                _service.Update(id);
+                _service.Update(id, input.Title, input.Description, input.Status, ETaskPriority.Low);
                 return NoContent();
             }
             catch (Exception ex)
             {
                 return NotFound(new {message = ex.Message});
             }
+        }
+
+        [HttpPatch("{id}/status")]
+        public IActionResult UpdateStatus(int id, [FromBody] UpdateTaskInput input)
+        {
+            if (!Enum.IsDefined(typeof(TaskEntityStatus), input.Status))
+            {
+                return BadRequest("Status inválido.");
+            }
+
+            _service.UpdateStatus(id, input.Status);
+
+            return NoContent();
         }
 
         [HttpDelete("{id}")]

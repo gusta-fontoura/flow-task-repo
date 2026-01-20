@@ -8,5 +8,6 @@ namespace FlowTask.API.Services
         Project CreateProject(CreateProjectInput input);
         List<Project> GetAll();
         void DeleteProject(int id);
+        Project GetById(int id);
     }
 }

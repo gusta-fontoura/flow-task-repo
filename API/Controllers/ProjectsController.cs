@@ -29,6 +29,19 @@ namespace FlowTask.API.Controllers
             return Ok(projects);
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            var projects = _service.GetById(id);
+
+            if (projects == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(projects);
+        }
+
         // 4. Método POST (Criar novo projeto)
         // Rota: POST api/projects
         [HttpPost]
