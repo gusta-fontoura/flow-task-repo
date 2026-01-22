@@ -36,6 +36,8 @@ namespace FLowTask.API.Services
 
             var task = new TaskEntity(input.Title, input.Description, input.ProjectId);
 
+            task.Priority = input.Priority;
+
             _repository.Add(task);
 
             return task;
@@ -62,10 +64,26 @@ namespace FLowTask.API.Services
                 throw new Exception("Tarefa não encontrada.");
             }
 
+            task.Status = status;
+
             task.UpdateStatus(status);
 
             _repository.Update(task);
         }
+
+        public void UpdatePriority(int id, ETaskPriority priority)
+        {
+            var task = _repository.GetById(id);
+            if (task == null)
+            {
+                throw new Exception("Tarefa não encontrada.");
+            }
+
+            task.Priority = priority;
+
+            _repository.Update(task);
+        }
+
         public void Delete(int id)
         {
             var task = _repository.GetById(id);

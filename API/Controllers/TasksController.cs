@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using FlowTask.Domain.Entities;
-using FlowTask.Infrastructure.Persistence;
-using FlowTask.API.Models;
-using FlowTask.Domain.Repositories;
+﻿using FlowTask.API.Models;
 using FlowTask.API.Services;
+using FlowTask.Domain.Entities;
+using FlowTask.Domain.Repositories;
+using FlowTask.Infrastructure.Persistence;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace FlowTask.API.Controllers
 {
@@ -25,7 +26,9 @@ namespace FlowTask.API.Controllers
             try
             {
                 var task = _service.Create(model);
-                return CreatedAtAction(nameof(GetAll), new { id = task.Id }, task);
+                var viewModel = TaskViewModel.FromEntity(task);
+
+                return CreatedAtAction(nameof(GetAll), new { id = task.Id }, viewModel);
             }
             catch (Exception ex)
             {
@@ -38,20 +41,26 @@ namespace FlowTask.API.Controllers
         public IActionResult GetAll()
         {
             var tasks = _service.GetAll();
-            return Ok(tasks);
+
+            var viewModels = tasks.Select(TaskViewModel.FromEntity);
+            
+
+            return Ok(viewModels);
         }
 
         [HttpGet("{id}")]
         public IActionResult GetByID(int id)
         {
-            var tasks = _service.GetById(id);
+            var task = _service.GetById(id);
 
-            if (tasks == null)
+            if (task == null)
             {
                 return NotFound();
             }
 
-            return Ok(tasks);
+            var viewModel = TaskViewModel.FromEntity(task);
+
+            return Ok();
         }
 
         [HttpPut("{id}")]
@@ -77,6 +86,19 @@ namespace FlowTask.API.Controllers
             }
 
             _service.UpdateStatus(id, input.Status);
+
+            return NoContent();
+        }
+
+        [HttpPatch("{id}/priority")]
+        public IActionResult UpdatePriority(int id, [FromBody] UpdateTaskInput input)
+        {
+            if (!Enum.IsDefined(typeof(ETaskPriority), input.Priority))
+            {
+                return BadRequest("Prioridade inválido.");
+            }
+
+            _service.UpdatePriority(id, input.Priority);
 
             return NoContent();
         }

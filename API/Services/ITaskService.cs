@@ -1,6 +1,7 @@
 ﻿using FlowTask.API.Models;
-using TaskEntity = FlowTask.Domain.Entities.Task;
 using FlowTask.Domain.Entities;
+using System.Security.Cryptography;
+using TaskEntity = FlowTask.Domain.Entities.Task;
 
 namespace FlowTask.API.Services
 {
@@ -11,6 +12,7 @@ namespace FlowTask.API.Services
         void Delete(int id);
         TaskEntity GetById (int id);
         void UpdateStatus(int id, TaskEntityStatus status);
+        void UpdatePriority(int id, ETaskPriority priority);
         void Update(int id, string title, string description, TaskEntityStatus status, ETaskPriority priority);
     }
 }

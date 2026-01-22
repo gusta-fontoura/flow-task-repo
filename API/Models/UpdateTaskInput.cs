@@ -7,5 +7,7 @@ namespace FlowTask.API.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public TaskEntityStatus Status { get; set; }
+
+        public ETaskPriority Priority { get; set; }
     }
 }

@@ -23,23 +23,26 @@ namespace FlowTask.API.Controllers
         // 3. Método GET (Listar todos os projetos)
         // Rota: GET api/projects
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult Get()
         {
             var projects = _service.GetAll();
-            return Ok(projects);
+
+            var viewModel = projects.Select(ProjectViewModel.FromEntity);
+
+            return Ok(viewModel);
         }
 
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            var projects = _service.GetById(id);
+            var project = _service.GetById(id);
 
-            if (projects == null)
+            if (project == null)
             {
                 return NotFound();
             }
 
-            return Ok(projects);
+            return Ok(ProjectViewModel.FromEntity(project));
         }
 
         // 4. Método POST (Criar novo projeto)
@@ -51,8 +54,9 @@ namespace FlowTask.API.Controllers
             {
                 var project = _service.CreateProject(model);
 
-                // Retorna status 201 (Created)
-                return CreatedAtAction(nameof(GetAll), new { id = project.Id }, project);
+                var viewModel = ProjectViewModel.FromEntity(project);
+
+                return CreatedAtAction(nameof(Get), new { id = project.Id }, viewModel);
             }
             catch (Exception ex)
             { 
