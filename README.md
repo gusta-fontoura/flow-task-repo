@@ -5,8 +5,8 @@ API desenvolvida em C# (.NET) para o sistema de gerenciamento de tarefas **FlowT
 ## 🛠 Tecnologias Utilizadas
 
 * **Linguagem:** C#
-* **Framework:** .NET 8 (ou a versão que estamos usando)
-* **Banco de Dados:** (Ex: SQL Server / PostgreSQL - *preencher conforme nossa implementação*)
+* **Framework:** .NET 8 
+* **Banco de Dados:** SQL Server
 * **ORM:** Entity Framework Core
 * **Documentação:** Swagger / OpenAPI
 
@@ -42,9 +42,44 @@ API desenvolvida em C# (.NET) para o sistema de gerenciamento de tarefas **FlowT
 5.  Acesse o Swagger para testar os endpoints:
     * Geralmente em: `http://localhost:5000/swagger`
 
-## 📝 Status do Projeto
+## 🚀 Roadmap e Progresso do Projeto
 
-🚧 **Em desenvolvimento.** Focando atualmente na implementação dos endpoints principais e regras de negócio.
+Este projeto está sendo desenvolvido em etapas, seguindo o padrão de **Arquitetura Limpa** e princípios **REST**. Abaixo, o status atual do desenvolvimento:
+
+### 🏗️ Arquitetura e Configuração
+- [x] Configuração da Solution (.sln) e camadas (API, Application, Domain, Infrastructure).
+- [x] Configuração do **Entity Framework Core** com SQL Server.
+- [x] Implementação do **Padrão Repository** (para desacoplamento do banco).
+- [x] Configuração do **Swagger/OpenAPI** para documentação da API.
+- [x] Implementação de **ViewModels** (para formatar saídas da API).
+- [x] Implementação de **InputModels** (para receber dados limpos).
+
+### 📝 Gestão de Tarefas (Kanban Core)
+- [x] **Projetos:** CRUD completo (Criar, Listar, Detalhes, Deletar).
+- [x] **Tarefas:** CRUD completo.
+- [x] **Relacionamento:** Vinculação de Tarefas a Projetos.
+- [x] **Ciclo de Vida:** Mudança de Status (ToDo -> InProgress -> Done) via PATCH.
+- [x] **Priorização:** Sistema de Prioridade (Low, Medium, High) via Enum e PATCH.
+- [x] **Limpeza:** Deleção em cascata (ao deletar projeto, deleta tarefas).
+
+### 🛡️ Qualidade e Validação
+- [x] Instalação do **FluentValidation**.
+- [x] Validação de Campos Obrigatórios (Título, Descrição).
+- [x] Validação de Regras de Negócio (Tamanho de texto, IDs válidos).
+- [x] Tratamento de erros amigável (Bad Request automático).
+
+### 🔐 Autenticação e Segurança (Fase Atual)
+- [x] Criação da Entidade de Usuário e Migração do Banco.
+- [ ] Cadastro de Usuários.
+- [ ] Criptografia de Senhas (Hashing).
+- [ ] Serviço de Login e Geração de Token JWT.
+- [ ] Autorização (Proteger rotas apenas para usuários logados).
+- [ ] Contexto de Usuário (Usuário só vê seus próprios projetos).
+
+### 🔮 Próximos Passos (Backlog)
+- [ ] Testes Unitários com xUnit.
+- [ ] Implementação de logs de auditoria.
+- [ ] Deploy na nuvem (Azure/AWS).
 
 ---
 Desenvolvido por Gustavo Fontoura.
